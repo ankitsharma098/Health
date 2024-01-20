@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "189026039486",
+    "project_id": "health-improvement-4a8c6",
+    "storage_bucket": "health-improvement-4a8c6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:189026039486:android:411c8b7726afeb1749d0ef",
+        "android_client_info": {
+          "package_name": "com.example.untitled"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5iqvoVLQODoyqG0OBXO9HiDwAND303j4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
