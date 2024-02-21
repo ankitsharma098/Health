@@ -15,78 +15,107 @@ class MentalHealth extends StatefulWidget {
 class _MentalHealthState extends State<MentalHealth> {
  int i=0;
 
-   var firestoreDB = FirebaseFirestore.instance.collection("MentalHealthQuiz")
-       .snapshots();
-
- var radio1=Icon(Icons.radio_button_off);
- var radio2=Icon(Icons.radio_button_off);
- var radio3=Icon(Icons.radio_button_off);
-  @override
-
-  List<String> Question=["Question1","Question2","Question3","Question4","Question5","Question6","Question7","Question8","Question9","Question10"];
+   // var firestoreDB = FirebaseFirestore.instance.collection("MentalHealthQuiz").doc('ubWHkpBHy7jmiad7vC6t').snapshots();
+ String  buttonName="Next";
+ @override
+   String ?SelectedAns;
   Widget build(BuildContext context) {
     Size size=MediaQuery.of(context).size;
     return StreamBuilder(
-            stream: firestoreDB,
+            stream: FirebaseFirestore.instance.collection('MentalHealthQuiz').snapshots(),
         builder: (context,snapshots){
-
-              if(!snapshots.hasData) return Center(child: CircularProgressIndicator());
+          // // Text(snapshots.data?.docs[index]['Questions']['$index']['description']),
+          //     if(!snapshots.hasData) return Center(child: CircularProgressIndicator());
+          var k=snapshots.data?.docs.length;
               return Scaffold(
+
                 appBar: AppBar(
                   title: Text("Mental Health Prediction",style: GoogleFonts.tiltNeon(),),
                 ),
                 body: ListView.builder(
                     itemCount: snapshots.data?.docs.length ?? 0,
-
                     itemBuilder: (context,int index){
-                      var question = Question?[index];
-                    i=i+1;
-                    return ListTile(
-                        title: Text(snapshots.data?.docs[index]['Questions']['$index']['description']),
-                        subtitle: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                          ListTile(
-                            leading: radio1,
-                            title:   TextButton(onPressed: (){
-                            setState(() {
-                              radio1=Icon(Icons.radio_button_checked);
-                              var radio2=Icon(Icons.radio_button_off);
-                              var radio3=Icon(Icons.radio_button_off);
+                      // // String text=snapshots.data?.docs[index]['questions'].map((questions){
+                      // //   String questionText = questions['text'];
+                      // // });
+                      // DocumentSnapshot doc = snapshots.data?.docs[index] as DocumentSnapshot<Object?>;
+                      // Object? data = doc.data();
+                      // if (data!=null) {
+                      //    Map<String, dynamic> dataMap = data as Map<String, dynamic>;
+                      //    if (dataMap.containsKey('questions')) {
+                      //        List<dynamic> questions = dataMap['questions'];
+                      //        print(questions[0]);
+                      //   // Continue with your code
+                      // }
+                      // // Map<String, dynamic> questionMap = questions[0]; // Access the map at index 0
+                      // // String questionText = doc['title'];
+                      String text =snapshots.data?.docs[index]['questions'][i]['text'];
+                      List<dynamic> options=snapshots.data?.docs[index]['questions'][i]['options'];
 
-                            });
-                            }, child: AutoSizeText(snapshots.data?.docs[index]['Questions']['$index']['option1'],textAlign: TextAlign.start,style: GoogleFonts.exo(fontSize: size.height*0.02),),),
-                          ),
-                            ListTile(
-                              leading: radio2,
-                              title: TextButton(onPressed: (){
-                                setState(() {
-                                  var radio3=Icon(Icons.radio_button_off);
-                                   radio2=Icon(Icons.radio_button_checked);
-                                  var radio1=Icon(Icons.radio_button_off);
-                                });
-                              }, child: Text(snapshots.data?.docs[index]['Questions']['$index']['option2'],style: GoogleFonts.exo(fontSize: size.height*0.02),),),
-                            ),
-                            ListTile(
-                              leading: radio3,
-                              title: TextButton(
+                      return Column(
+                      children: [
+                        ListTile(
+                            title: Text("$text"),
+                    ),
+                        RadioListTile(
+                          title: Text(options[0]),
+                            value: options[0],
+                            groupValue: SelectedAns,
+                            onChanged: (value){
+                              setState(() {
+                                SelectedAns=value as String?;
+                              });
+                        }),
+                        RadioListTile(
+                            title: Text(options[1]),
+                            value: options[1],
+                            groupValue: SelectedAns,
+                            onChanged: (value){
+                              setState(() {
+                                SelectedAns=value as String?;
+                              });
+                            }),
+                        RadioListTile(
+                            title: Text(options[2]),
+                            value: options[2],
+                            groupValue: SelectedAns,
+                            onChanged: (value){
+                              setState(() {
+                                SelectedAns=value as String?;
+                              });
+                            }),
+                        SizedBox(height: size.height*0.05),
+                        Center(
+                          child: ElevatedButton(onPressed: () {
+                            if(SelectedAns!=null){
+                              setState(() {
+                                if(i<snapshots.data!.docs.length){
+                                  i++;
+                                }
+                                else if(i==snapshots.data!.docs.length){
+                                  buttonName="Submit";
+                                }
+                              });
+                            }
+                            else{
+                              showErrorMessage("Please Choose the one Answer");
+                            }
 
-                                onPressed: (){
-                                  setState(() {
-                                    var radio1=Icon(Icons.radio_button_off);
-                                    var radio2=Icon(Icons.radio_button_off);
-                                    radio3=Icon(Icons.radio_button_checked);
-                                  });
-                                }, child: Text(snapshots.data?.docs[index]['Questions']['$index']['option3'],style: GoogleFonts.exo(fontSize: size.height*0.02),),),
-                            )
-                          ],
-                        ),
+                          },
+                          child: Text("Next")),
+
+                        )
+                      ],
                     );
                 }),
               );
 
         });
   }
+ void showErrorMessage(String message){
+   final snackBar=SnackBar(content: Text(message,style: TextStyle(color: Colors.white),),backgroundColor: Colors.red,);
+   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+ }
 }
+
 

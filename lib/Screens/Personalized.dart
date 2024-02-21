@@ -28,7 +28,7 @@ class _PersonalizedState extends State<Personalized> {
       appBar: AppBar(
         backgroundColor: Colors.cyan,
         elevation: 0,
-        title:   AutoSizeText("Questions to Answer",style: GoogleFonts.tiltNeon(color: Colors.black,fontSize: size.height*0.04,fontWeight: FontWeight.w400),),
+        title:   AutoSizeText("HealthCare",style: GoogleFonts.tiltNeon(color: Colors.black,fontSize: size.height*0.04,fontWeight: FontWeight.w400),),
       toolbarHeight: size.height*0.1,
 
       ),
@@ -41,7 +41,7 @@ class _PersonalizedState extends State<Personalized> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 AutoSizeText(
-                  'Medical History',
+                  'Medical Question',
                   style: TextStyle(fontSize: size.height*0.02, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height:  size.height*0.005),
@@ -107,7 +107,7 @@ class _PersonalizedState extends State<Personalized> {
 Future<String> googleBard(String prompt)  async {
   final respone= await http.post(
 
-      Uri.parse('https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyD3ClgKmibKVwdWv5IWraY14VaWbhdAX_Y'),
+      Uri.parse('https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyCPw030v9FN3v00nNvO1zXnXjltZ2KjA9U'),
       headers: {
         'content-type':'application/json',
         'Cache-Control':'no-cache',

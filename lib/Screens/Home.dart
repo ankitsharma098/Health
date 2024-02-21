@@ -99,6 +99,15 @@ class _HomeState extends State<Home> {
          )
         ],
       ),
+      floatingActionButton: Container(
+        width: size.width*0.3,
+        height: size.height*0.1,
+        child: FloatingActionButton(onPressed: () {  },
+        child: Text("Emergency"),
+          backgroundColor: Colors.red,
+
+        ),
+      ),
     );
   }
 }
